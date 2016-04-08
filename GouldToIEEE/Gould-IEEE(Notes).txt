@@ -1,0 +1,46 @@
+//logs are all base 2
+//abs = absolute value
+//pow(a,b) = a to the power of b
+//s = sign; 0 = p, 1 = n
+//v = value
+//exp = exp
+//m = mantissa
+
+Formulas:
+
+s = s
+exp = (int) log(abs(v)) + 127
+m = ((abs(v) / pow(2, exp - 127)) - 1) * pow(2, 23) 
+or (they both work)
+m = pow(2, log(abs(v)) - (int)log(abs(v)) + 23) - pow(2, 23)
+
+Example 2:
+(put all in calculator at once, calculators have rounding error sometimes)
+
+0xE0FFFFFE = 1110 0000 1111 1111 1111 1111 1111 1110
+
+v = -pow(16,32)*(16777214/pow(2,24))
+
+s = 1
+
+exp = (int)log(pow(2, 128) * 16777214 / pow(2,24)) + 127 
+= (int)(128 - 24 + log(16777214)) + 127 
+= (int)(127.99999) + 127
+= 127 + 127
+= 254
+exp = 254
+
+m = ((pow(16,32)*(16777214/pow(2,24))/pow(2, 254 - 127)) - 1) * pow(2, 23)
+= ((pow(2,128-24-254+127) * 16777214) - 1) * pow(2, 23)
+= ((pow(2, -23) * 16777214) - 1) * pow(2, 23)
+= (1.999999762 - 1) * pow(2, 23)
+= 0.999999762 * pow(2, 23)
+= 8388606
+m = 8388606
+
+1 = s
+exp = 1111 1110
+m = 111 1111 1111 1111 1111 1110
+
+1111 1111 0111 1111 1111 1111 1111 1110
+= 0xFF7FFFFE
